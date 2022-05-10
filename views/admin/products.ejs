@@ -1,4 +1,4 @@
-<%- include('../includes/header.ejs') %> 
+<%- include('../includes/header.ejs') %>
     <main>
         <div class="product-lists">
             <% for(product of products){ %>
@@ -9,7 +9,10 @@
                         <p class="product-description"><%= product.description %> </p>
                         <span class="product-price"><%= product.price %> $</span>
                     </div>
-                  
+                    <div class="btn-lists">
+                        <button class="btn btn-warning">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </div>
                 </div>
             <% } %> 
         </div>

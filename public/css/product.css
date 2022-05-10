@@ -1,0 +1,26 @@
+.product-lists{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.product-list{
+    background-color: #f9f9f9;
+    width: 250px;
+    text-align: center;
+}
+.product-list .product-title{
+    padding: .8rem 0rem;
+}
+.product-list .product-text{
+    padding: 1rem 0 .7rem 0;
+}
+.product-list img{
+    width: 100%;
+    padding: 0;
+}
+.product-list .product-description{
+    margin-bottom: .5rem;
+}
+.product-list .btn-lists{
+    margin:1rem 0rem;
+}

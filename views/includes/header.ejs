@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= pageTitle %> </title>
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/product.css">
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="">Products</a></li>
-            <li><a href="">Cart</a></li>
-            <li><a href="">Order</a></li>
-            <li><a href="">Add Prdouct</a></li>
-            <li><a href="">Admin Prdouduct</a></li>
+            <li><a href="/" class="<%= path==='/'&& 'active' %> ">Home</a></li>
+            <li><a href="/products" class="<%= path==="/products" && 'active' %> ">Products</a></li>
+            <li><a href="/cart">Cart</a></li>
+            <li><a href="/order">Order</a></li>
+            <li><a href="/admin/addproduct">Add Prdouct</a></li>
+            <li><a href="/admin/products" class="<%= path==='/admin/products'&& 'active' %> ">Admin Products</a></li>
         </ul>
     </nav>    
