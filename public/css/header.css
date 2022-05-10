@@ -13,3 +13,7 @@ nav ul li {
 nav ul li a{
     color: rgb(16, 23, 36);
 }
+nav ul li a.active{
+    padding-bottom:.5rem ;
+    border-bottom:2px solid indianred ;
+}

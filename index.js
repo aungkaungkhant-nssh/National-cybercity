@@ -1,19 +1,25 @@
 const express = require("express");
 const app = express();
 const bodyParser= require("body-parser");
-const path = require('path')
+const path = require('path');
+const shopRoutes = require('./routes/shopRoutes');
+const adminRoutes = require('./routes/adminRoute');
+const mongoConnect = require('./util/database').mongoConnect;
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,"public")));
 app.set('view engine','ejs');
-
-app.use('/',(req,res)=>{
-    res.render("shop/index");
-})
 app.set('views','views');
+
+
+
+app.use('/',shopRoutes);
+app.use('/admin',adminRoutes);
 app.use((req,res,next)=>{
-    res.render("404")
+    res.render("404");
 })
 
-app.listen(3000,()=>{
-    console.log("Server is running on port 3000");
+mongoConnect(()=>{
+    app.listen(3000)
 })
+
