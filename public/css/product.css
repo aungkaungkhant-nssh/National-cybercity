@@ -24,3 +24,17 @@
 .product-list .btn-lists{
     margin:1rem 0rem;
 }
+.add-product-title{
+    text-align: center;
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+form{
+    margin-top: 1rem;
+}
+form .form-group{
+    margin-bottom: 1rem;
+}
+form .form-control{
+    width: 100%;
+}
