@@ -1,24 +1,29 @@
 <%- include('../includes/header.ejs') %>
     <main>
-        <h3 class="add-product-title">Add Product</h3>
-        <form action="/admin/add-product" method="POST">
+        <h3 class="add-product-title">
+            <%= isEditing ? 'Edit Product' : 'Add Product' %> 
+        </h3>
+        <form action="/admin/<%= isEditing ? 'edit-product' : 'add-product' %>" method="POST">
+            <% if(isEditing){ %>
+                <input type="hidden" name="id" value="<%= product._id %>">
+            <% } %>  
             <div class="form-group">
                 <label for="">Title</label>
-                <input type="text" name="title" class="form-control">
+                <input type="text" name="title" class="form-control" value="<%= isEditing ? product.title: "" %>">
             </div>
             <div class="form-group">
                 <label for="">Price</label>
-                <input type="number" name="price" class="form-control">
+                <input type="number" name="price" class="form-control" value="<%= isEditing ? product.price: "" %>">
             </div>
             <div class="form-group">
                 <label for="">Image</label>
-                <input type="text" name="image" class="form-control">
+                <input type="text" name="image" class="form-control" value="<%= isEditing ? product.image: "" %>">
             </div>
             <div class="form-group">
                 <label for="">Description</label>
-                <textarea name="description" class="form-control"></textarea>
+                <textarea name="description" class="form-control"><%= isEditing ? product.description: "" %></textarea>
             </div>
-            <input type="submit" class="btn btn-primary btn-lg" value="Add Product">
+            <input type="submit" class="btn btn-primary btn-lg" value="<%= isEditing ? 'Edit Product' : 'Add Product' %> ">
         </form>
     </main>
 <%- include('../includes/footer.ejs') %>  
