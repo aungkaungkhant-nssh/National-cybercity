@@ -16,7 +16,10 @@ app.set('views','views');
 app.use('/',shopRoutes);
 app.use('/admin',adminRoutes);
 app.use((req,res,next)=>{
-    res.render("404");
+    res.render("404",{
+        pageTitle:'404 Page',
+        path:''
+    });
 })
 
 mongoConnect(()=>{
