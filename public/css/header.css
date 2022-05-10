@@ -1,0 +1,15 @@
+nav{
+    background-color: rgb(221, 245, 66);
+    width: 100%;
+    padding: 1rem 1.5rem;
+}
+nav ul{
+    display: flex;
+    font-weight: 500;
+}
+nav ul li {
+    margin-right: 3rem;
+}
+nav ul li a{
+    color: rgb(16, 23, 36);
+}
