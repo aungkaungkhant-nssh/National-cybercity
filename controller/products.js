@@ -1,6 +1,6 @@
-const Shop = require('../models/shop');
+const Product = require('../models/product');
 exports.getIndex=(req,res,next)=>{
-    Shop.fetchAll()
+    Product.fetchAll()
         .then((products)=>{
             res.render('shop/index',{
                     products,
@@ -12,7 +12,7 @@ exports.getIndex=(req,res,next)=>{
 }
 
 exports.getProducts=(req,res,next)=>{
-    Shop.fetchAll()
+    Product.fetchAll()
         .then((products)=>{
             res.render('shop/product-lists',{
                     products,

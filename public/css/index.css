@@ -22,15 +22,19 @@ main{
     padding-top: 2rem;
 }
 .btn{
-    padding: .4rem 1rem;
+    padding: .6rem 1rem;
     cursor: pointer;
     outline: none;
     border: none;
     border-radius: .4rem;
     color: #fff;
+    transition: all .5s;
+    font-size: 1rem;
+}
+.btn.btn-lg{
+    width: 100%;
 }
 .btn.btn-warning{
-    
     background-color: yellow;
     color: #000;
 }
@@ -45,4 +49,18 @@ main{
 .btn.btn-danger:hover{
     background-color: indianred;
     border:indianred ;
+}
+.btn.btn-primary{
+    background-color: blue;
+}
+.btn.btn.btn-primary:hover{
+    background-color: skyblue;
+    border:skyblue ;
+}
+label{
+    
+}
+input,textarea{
+    padding: .3rem;
+    margin-top: .8rem;
 }
