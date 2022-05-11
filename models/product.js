@@ -46,4 +46,5 @@ module.exports = class Shop{
                 .then((product)=>product)
                 .catch((err)=>console.log(err));
     }
+    
 }
