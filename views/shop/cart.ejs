@@ -1,0 +1,13 @@
+<%- include('../includes/header.ejs') %>
+    <main>
+        <% for(cart of carts){ %>
+            <h3><%= cart.title %> </h3>
+            <p>quantity <%= cart.quantity %> </p>
+            <form action="/delete-cart" method="post">
+                <input type="hidden" value="<%= cart._id %>" name="id">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+           
+        <% } %>  
+    </main>
+<%- include('../includes/footer.ejs') %>  
