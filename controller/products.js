@@ -28,7 +28,7 @@ exports.postAddCart=(req,res,next)=>{
                 .then((product)=>{
                    return req.user.addToCart(product);
                 })
-                .then((data)=> res.redirect('/'))
+                .then((data)=> res.redirect('/cart'))
                 .catch((err)=>console.log(err))
 }
 
@@ -60,4 +60,20 @@ exports.postDeleteCart =(req,res,next)=>{
     req.user.deleteCart(id)
         .then((d)=>res.redirect('/cart'))
         .catch((err)=>console.log(err))
+}
+
+exports.getAddOrder = (req,res,next)=>{
+    req.user.getOrder()
+        .then((orders)=>{
+            res.render('shop/order',{
+                pageTitle:"Order",
+                path:'/order',
+                orders
+            })
+        })
+}
+exports.postAddOrder= (req,res,next)=>{
+    req.user.addOrder()
+        .then((d)=>res.redirect('/cart'))
+        .catch((err)=>console.log(err));
 }

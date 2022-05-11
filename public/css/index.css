@@ -9,6 +9,9 @@ a{
     text-decoration: none;
     transition: all .5s ease;
 }
+h1,h2,h3,h4,h5,h6,h7{
+    font-weight: 400;
+}
 a:hover{
     color:rgb(136, 140, 132 );
 }
@@ -76,4 +79,33 @@ label{
 input,textarea{
     padding: .3rem;
     margin-top: .8rem;
+}
+
+.card{
+    background-color: #f9f9f9;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+}
+.d-flex{
+    display: flex;
+}
+.justify-center{
+    justify-content: center;
+}
+.align-center{
+    align-items: center;
+}
+.text-center{
+    text-align: center;
+}
+.badge{
+    border-radius: 50%;
+    text-align: center;
+    line-height:30px;
+    padding: .2rem .4rem;
+}
+.badge-warning{
+    background-color:rgb(221, 245, 66) ;
 }
