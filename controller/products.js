@@ -31,3 +31,16 @@ exports.postAddCart=(req,res,next)=>{
                 .then((data)=> res.redirect('/'))
                 .catch((err)=>console.log(err))
 }
+
+exports.getProduct=(req,res,next)=>{
+    const id= req.params.id;
+    Product.findById(id)
+            .then((product)=>{
+                res.render("shop/product-detail",{
+                    product,
+                    pageTitle:"Product Detail",
+                    path:''
+                })
+            })
+            .catch((err)=>console.log(err))
+}

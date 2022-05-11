@@ -38,6 +38,16 @@ main{
     background-color: yellow;
     color: #000;
 }
+.btn.btn-outline-warning{
+    border: 2px solid yellow;
+    color: #000;
+    background-color: #ffff;
+}
+.btn.btn-outline-warning:hover{
+    background-color: rgb(221, 245, 66);
+    color: #fff;
+    border: 2px solid rgb(221, 245, 66);
+}
 .btn.btn-warning:hover{
     background-color: rgb(221, 245, 66);
     border:rgb(221, 245, 66) ;
