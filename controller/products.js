@@ -44,3 +44,20 @@ exports.getProduct=(req,res,next)=>{
             })
             .catch((err)=>console.log(err))
 }
+exports.getAddCart=(req,res,next)=>{
+    req.user.getCart()
+        .then((carts)=>{
+            res.render('shop/cart',{
+                carts,
+                pageTitle:"Cart",
+                path:"/cart"
+            })
+        })
+        .catch((err)=>console.log(err));
+}
+exports.postDeleteCart =(req,res,next)=>{
+    const {id} = req.body;
+    req.user.deleteCart(id)
+        .then((d)=>res.redirect('/cart'))
+        .catch((err)=>console.log(err))
+}

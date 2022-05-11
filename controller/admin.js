@@ -30,11 +30,14 @@ exports.postAddProduct=(req,res,next)=>{
 }
 exports.postDeleteProduct = (req,res,next)=>{
     const {id} = req.body;
-    Product.destroy(id)
-            .then((r)=>{
-                res.redirect('/admin/products')
+    Product.findById(id)
+            .then((product)=>{
+               return Product.destroy(product._id)
             })
+            .then((r)=> req.user.deleteCart(r._id))
+            .then((r)=> res.redirect('/admin/products'))
             .catch((err)=>console.log(err));
+
 }
 
 exports.getEditProduct=(req,res,next)=>{

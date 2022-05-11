@@ -34,6 +34,9 @@ main{
 .btn.btn-lg{
     width: 100%;
 }
+.btn.btn-sm{
+    padding: .3rem;
+}
 .btn.btn-warning{
     background-color: yellow;
     color: #000;

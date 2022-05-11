@@ -34,7 +34,7 @@ module.exports = class Shop{
         const db =getDb();
         return db.collection("products")
                 .deleteOne({_id:new mongodb.ObjectId(id)})
-                .then(()=> console.log("Delete Product"))
+                .then((res)=>res)
                 .catch((err)=> console.log(err))
 
     }
