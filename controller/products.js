@@ -22,4 +22,12 @@ exports.getProducts=(req,res,next)=>{
         })
         .catch((err)=>console.log(err));  
 }
-
+exports.postAddCart=(req,res,next)=>{
+        const {id}= req.body;
+        Product.findById(id)
+                .then((product)=>{
+                   return req.user.addToCart(product);
+                })
+                .then((data)=> res.redirect('/'))
+                .catch((err)=>console.log(err))
+}
