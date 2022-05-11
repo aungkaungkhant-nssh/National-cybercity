@@ -56,4 +56,36 @@ module.exports = class User{
                 .then((data)=> data)
                 .catch((err)=>console.log(err));
     }
+    addOrder(){
+        const db = getDB();
+       return this.getCart()
+            .then((cart)=>{
+                const order = {
+                   items:cart,
+                   user:{
+                       _id:new mongodb.ObjectId(this._id),
+                       name:this.name
+                   }
+                }
+                return db.collection("orders")
+                        .insertOne(order)
+            })
+            .then((res)=>{
+                this.carts={items:[]}
+                    db.collection("users")
+                  .updateOne({_id:new mongodb.ObjectId(this._id)},{$set:{carts:{items:[]}}})
+            })
+            .catch((err)=>console.log(err))
+       
+
+    }
+    getOrder(){
+        const db = getDB();
+      
+        return db.collection("orders")
+                 .find({'user._id':this._id})
+                 .toArray()
+                 .then((orders)=> orders)
+                 .catch((err)=>console.log(err));
+    }
 }

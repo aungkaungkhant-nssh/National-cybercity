@@ -1,0 +1,22 @@
+<%- include('../includes/header.ejs') %>
+    <main>
+        <% if(orders.length>0){ %>
+            <% orders.forEach((o)=>{ %>
+                <div class="card">
+                    <h3 style="margin-bottom: .5rem;">Order# <%= o._id %> </h3>
+                    <% o.items.forEach((i)=>{ %> 
+                        <ul>
+                            <li style="margin-right: .5rem;font-weight: 300;">
+                                <%= i.title  %> 
+                                <span class="badge badge-warning"><%= i.quantity %> </span>
+                             </li>
+                        </ul>
+                    <% }) %> 
+                </div>
+              
+            <% }) %>  
+        <% }else{ %>  
+            <h2 class="text-center">Nothing Here</h2>
+        <% } %> 
+    </main>
+<%- include('../includes/footer.ejs') %>  
