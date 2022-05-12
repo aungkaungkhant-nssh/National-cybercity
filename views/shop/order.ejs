@@ -4,10 +4,10 @@
             <% orders.forEach((o)=>{ %>
                 <div class="card">
                     <h3 style="margin-bottom: .5rem;">Order# <%= o._id %> </h3>
-                    <% o.items.forEach((i)=>{ %> 
+                    <% o.products.forEach((i)=>{ %> 
                         <ul>
                             <li style="margin-right: .5rem;font-weight: 300;">
-                                <%= i.title  %> 
+                                <%= i.product.title  %> 
                                 <span class="badge badge-warning"><%= i.quantity %> </span>
                              </li>
                         </ul>

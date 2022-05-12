@@ -3,10 +3,10 @@
         <% if(carts.length>0){ %>
             <% for(cart of carts){ %>
                 <div class="card d-flex align-center cart">
-                    <h3 class="cart-title" style="margin-right: .8rem;"><%= cart.title %> </h3>
+                    <h3 class="cart-title" style="margin-right: .8rem;"><%= cart.productId.title %> </h3>
                     <span class="badge badge-danger"><%= cart.quantity %> </span>
                     <form action="/delete-cart" method="post" style="margin-left:auto;">
-                        <input type="hidden" value="<%= cart._id %>" name="id">
+                        <input type="hidden" value="<%= cart.productId._id %>" name="id">
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                 </div>

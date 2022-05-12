@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 exports.getProducts =(req,res,next)=>{
-    Product.fetchAll()
+    Product.find()
         .then((products)=>{
             res.render('admin/products',{
                             products,
@@ -21,7 +21,7 @@ exports.getAddProduct=(req,res,next)=>{
 }
 exports.postAddProduct=(req,res,next)=>{
     const {title,price,image,description} = req.body;
-    const product = new Product(title,price,image,description,null,req.user._id);
+    const product = new Product({title,price,image,description,userId:req.user});
     product.save()
            .then((d)=>{
                 res.redirect('/admin/products');
@@ -30,14 +30,9 @@ exports.postAddProduct=(req,res,next)=>{
 }
 exports.postDeleteProduct = (req,res,next)=>{
     const {id} = req.body;
-    Product.findById(id)
-            .then((product)=>{
-               return Product.destroy(product._id)
-            })
-            .then((r)=> req.user.deleteCart(r._id))
-            .then((r)=> res.redirect('/admin/products'))
-            .catch((err)=>console.log(err));
-
+    Product.findByIdAndRemove(id)
+        .then(()=>res.redirect('/admin/products'))
+        .catch((err)=>console.log(err))
 }
 
 exports.getEditProduct=(req,res,next)=>{
@@ -60,8 +55,9 @@ exports.getEditProduct=(req,res,next)=>{
 }
 exports.postEditProduct = (req,res,next)=>{
     const {id,title,image,price,description} = req.body;
-    const product = new Product(title,price,image,description,id,req.user._id);
-    product.save()
-            .then((re)=>res.redirect('/admin/products'))
-            .catch((err)=>console.log(err))
+    Product.findOneAndUpdate({_id:id},{title,image,price,description})
+        .then((updateProduct)=>{
+            res.redirect('/admin/products')
+        })
+        .catch(err => console.log(err))
 }
