@@ -6,7 +6,8 @@ exports.getIndex=(req,res,next)=>{
             res.render('shop/index',{
                     products,
                     pageTitle:"Products",
-                    path:"/"
+                    path:"/",
+                    isLoggedIn:req.session.isLoggedIn
                 });
         })
         .catch((err)=>console.log(err));  
@@ -15,11 +16,11 @@ exports.getIndex=(req,res,next)=>{
 exports.getProducts=(req,res,next)=>{
     Product.find()
         .then((products)=>{
-            console.log(products)
             res.render('shop/product-lists',{
                     products,
                     pageTitle:"Products",
-                    path:"/products"
+                    path:"/products",
+                    isLoggedIn:req.session.isLoggedIn
                 });
         })
         .catch((err)=>console.log(err));  
@@ -41,7 +42,8 @@ exports.getProduct=(req,res,next)=>{
                 res.render("shop/product-detail",{
                     product,
                     pageTitle:"Product Detail",
-                    path:''
+                    path:'',
+                    isLoggedIn:req.session.isLoggedIn
                 })
             })
             .catch((err)=>console.log(err))
@@ -53,7 +55,8 @@ exports.getAddCart=(req,res,next)=>{
             res.render('shop/cart',{
                 carts:user.carts.items,
                 pageTitle:"Cart",
-                path:"/cart"
+                path:"/cart",
+                isLoggedIn:req.session.isLoggedIn
             })
         })
         .catch((err)=>console.log(err));
@@ -71,7 +74,8 @@ exports.getAddOrder = (req,res,next)=>{
             res.render('shop/order',{
                 pageTitle:"Order",
                 path:'/order',
-                orders
+                orders,
+                isLoggedIn:req.session.isLoggedIn
             })
         })
 }
@@ -79,7 +83,6 @@ exports.postAddOrder= (req,res,next)=>{
     req.user
         .populate("carts.items.productId")
         .then((user)=>{
-            console.log(user.carts.items)
             let products = user.carts.items.map((i)=>{
                 return {product:{...i.productId._doc},quantity:i.quantity}
             })
