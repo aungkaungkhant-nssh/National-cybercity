@@ -1,50 +1,28 @@
-const getDb = require('../util/database').getDb;
-const mongodb = require('mongodb');
-module.exports = class Shop{
-    constructor(title,price,image,description,id,user_id){
-        this.title=title;
-        this.price=Number(price);
-        this.image=image;
-        this.description=description;
-        this._id=id;
-        this.user_id=user_id
-    }
-    save(){
-        const db = getDb();
-        let dbOp;
-        if(this._id){
-           const {_id,...updateProduct}=this;
-           dbOp = db.collection("products")
-              .updateOne({_id:new mongodb.ObjectId(_id)},{$set:updateProduct})
-        }else{
-           dbOp = db.collection("products")
-            .insertOne(this);
-        }
-        return dbOp.then((result)=>console.log(result)).catch((err)=>console.log(err))
-    }
-    static fetchAll(){
-        const db = getDb();
-        return db.collection("products")
-            .find() //cursor
-            .toArray() //return promise
-            .then((data)=>data)
-            .catch((err)=>console.log(err))
-    }
-    static destroy(id){
-        const db =getDb();
-        return db.collection("products")
-                .deleteOne({_id:new mongodb.ObjectId(id)})
-                .then((res)=>res)
-                .catch((err)=> console.log(err))
+const mongoose = require('mongoose');
+const Schema =mongoose.Schema;
 
+const productSchema = new Schema({
+    title:{
+        type:String,
+        required:true
+    },
+    price:{
+        type:Number,
+        required:true
+    },
+    image:{
+        type:String,
+        required:true
+    },
+    description:{
+        type:String,
+        required:true
+    },
+    userId:{
+        type:Schema.Types.ObjectId,
+        ref:"User",
+        required:true
     }
-    static findById(id){
-        const db = getDb();
-        return db.collection('products')
-                .find({_id:new mongodb.ObjectId(id)})
-                .next()
-                .then((product)=>product)
-                .catch((err)=>console.log(err));
-    }
-    
-}
+})
+
+module.exports = mongoose.model("Product",productSchema);
