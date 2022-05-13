@@ -6,7 +6,7 @@ exports.getProducts =(req,res,next)=>{
                             products,
                             pageTitle:"Admin Products",
                             path:"/admin/products",
-                            isLoggedIn:req.session.isLoggedIn
+                            
                         }
                       );
         })
@@ -18,7 +18,7 @@ exports.getAddProduct=(req,res,next)=>{
             pageTitle:"Admin Add Product",
             path:"/admin/add-product",
             isEditing:false,
-            isLoggedIn:req.session.isLoggedIn
+            
         })
 }
 exports.postAddProduct=(req,res,next)=>{
@@ -50,7 +50,7 @@ exports.getEditProduct=(req,res,next)=>{
                     path:'',
                     product,
                     isEditing,
-                    isLoggedIn:req.session.isLoggedIn
+                    
                 });
             })
             .catch(err => console.log(err))
