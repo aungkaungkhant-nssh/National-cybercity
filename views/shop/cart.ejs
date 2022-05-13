@@ -13,6 +13,7 @@
             <% } %>  
             <div class="d-flex justify-center" style="margin-top: 1rem;">
                 <form action="/order" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit" class="btn btn-outline-warning" >Order</button>
                 </form>
             </div>

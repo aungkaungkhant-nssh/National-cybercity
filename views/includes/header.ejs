@@ -28,11 +28,13 @@
             <% if(isLoggedIn){ %>
                 <li>
                     <form action="/logout" method="post">
-                        <input type="submit" value="Logout" class="logout">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>"> 
+                        <input type="submit" value="Logout" class="logout" >
                     </form>
                 </li>
             <% }else{ %>
                 <li><a href="/login">Login</a></li>
+                <li><a href="/signup">SignUp</a></li>
             <% } %>   
         </ul>
     </nav>    

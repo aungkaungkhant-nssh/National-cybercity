@@ -112,3 +112,13 @@ input,textarea{
 .badge-warning{
     background-color:rgb(221, 245, 66) ;
 }
+.alert{
+    width: 100%;
+    padding: .8rem 1rem;
+    border-radius: 10px;
+    text-align: center;
+}
+.alert.alert-danger{
+    background-color: #ed143dad;
+    color: #fff;
+}

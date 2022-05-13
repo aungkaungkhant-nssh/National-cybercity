@@ -3,8 +3,12 @@
     <% if(errorMessage){%>
         <div class="alert alert-danger"><%= errorMessage %> </div>
     <% } %>  
-    <form action="/login" method="post" style="margin-top: 1rem;">
+    <form action="/signup" method="post" style="margin-top: 1rem;">
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+        <div class="form-group">
+            <label for="">Name</label>
+            <input type="text" name="name" class="form-control">
+        </div>
         <div class="form-group">
             <label for="">Email</label>
             <input type="email" name="email" class="form-control">
@@ -13,8 +17,12 @@
             <label for="">Password</label>
             <input type="password" name="password" class="form-control">
         </div>
+        <div class="form-group">
+            <label for="">Confirm Password</label>
+            <input type="password" name="confirm_password" class="form-control">
+        </div>
         <div>
-            <input type="submit" class="btn btn-outline-warning" value="Login">
+            <input type="submit" class="btn btn-outline-warning" value="Signup">
         </div>
     </form>
 </main>
