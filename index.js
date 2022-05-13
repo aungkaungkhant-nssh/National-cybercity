@@ -53,6 +53,7 @@ const shopRoutes = require('./routes/shopRoutes');
 const adminRoutes = require('./routes/adminRoute');
 const authRoutes = require('./routes/authRoute');
 const User = require('./models/user');
+const { kill } = require("process");
 ;
 app.use(shopRoutes);
 app.use('/admin',adminRoutes);
