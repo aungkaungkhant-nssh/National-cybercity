@@ -1,5 +1,15 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const nodemailer =require('nodemailer');
+
+const transpoter =nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:"aungkaungkhantakk123321@gmail.com",
+        pass:"09772304598"
+    }
+});
+
 exports.getLogin=(req,res,next)=>{
     let message = req.flash("error");
     if(message.length > 0){
@@ -73,7 +83,15 @@ exports.postSignUp =(req,res,next)=>{
                     const user = new User({name,email,password:hashedPassword});
                     return  user.save();
                 })
-                .then(()=>res.redirect('/login'))
+                .then(()=>{
+                    transpoter.sendMail({
+                        from:"aungkaungkhantakk123321@gmail.com",
+                        to:email,
+                        subject:"Sign Up Succeeded",
+                        html:"<h1>You successfully sign up</h1>"
+                    })
+                    res.redirect('/login')
+                })
         })
         .catch((err)=>console.log(err))
 }
