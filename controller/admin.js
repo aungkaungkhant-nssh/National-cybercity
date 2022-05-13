@@ -1,12 +1,12 @@
 const Product = require('../models/product');
 exports.getProducts =(req,res,next)=>{
-    Product.find()
+    Product.find({userId:req.user._id})
         .then((products)=>{
             res.render('admin/products',{
                             products,
                             pageTitle:"Admin Products",
                             path:"/admin/products",
-                            
+            
                         }
                       );
         })
@@ -18,7 +18,6 @@ exports.getAddProduct=(req,res,next)=>{
             pageTitle:"Admin Add Product",
             path:"/admin/add-product",
             isEditing:false,
-            
         })
 }
 exports.postAddProduct=(req,res,next)=>{
@@ -32,7 +31,7 @@ exports.postAddProduct=(req,res,next)=>{
 }
 exports.postDeleteProduct = (req,res,next)=>{
     const {id} = req.body;
-    Product.findByIdAndRemove(id)
+    Product.findOneAndDelete({$and:[{_id:id},{userId:req.user._id}]})
         .then(()=>res.redirect('/admin/products'))
         .catch((err)=>console.log(err))
 }
@@ -43,14 +42,14 @@ exports.getEditProduct=(req,res,next)=>{
     if(!isEditing){
        return res.redirect("/");
     }
-    Product.findById(id)
+    Product.findOne({$and:[{_id:id},{userId:req.user._id}]})
             .then((product)=>{
+                if(!product) return res.redirect('/admin/products')
                 res.render("admin/add-product",{
                     pageTitle:"Admin Edit Product",
                     path:'',
                     product,
                     isEditing,
-                    
                 });
             })
             .catch(err => console.log(err))
@@ -58,7 +57,7 @@ exports.getEditProduct=(req,res,next)=>{
 }
 exports.postEditProduct = (req,res,next)=>{
     const {id,title,image,price,description} = req.body;
-    Product.findOneAndUpdate({_id:id},{title,image,price,description})
+    Product.findOneAndUpdate({$and:[{_id:id},{userId:req.user._id}]},{title,image,price,description})
         .then((updateProduct)=>{
             res.redirect('/admin/products')
         })

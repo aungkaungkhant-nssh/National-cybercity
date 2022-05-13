@@ -1,0 +1,17 @@
+<%- include('../includes/header.ejs') %>
+    <main>
+        <% if(errorMessage){%>
+            <div class="alert alert-danger"><%= errorMessage %> </div>
+        <% } %>  
+        <form action="/reset" method="post" style="margin-top: 1rem;">
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            <div class="form-group">
+                <label for="">Email</label>
+                <input type="email" name="email" class="form-control">
+            </div>
+            <div>
+                <input type="submit" class="btn btn-outline-warning" value="Reset">
+            </div>
+        </form>
+    </main>
+<%- include('../includes/footer.ejs') %>  
