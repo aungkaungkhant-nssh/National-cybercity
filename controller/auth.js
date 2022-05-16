@@ -2,6 +2,7 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const nodemailer =require('nodemailer');
 const crypto = require('crypto');
+const {validationResult}=require('express-validator')
 const transpoter =nodemailer.createTransport({
     service:"gmail",
     auth:{
@@ -15,27 +16,49 @@ exports.getLogin=(req,res,next)=>{
     if(message.length > 0){
         message=message[0];
     }else{
-        message=null
+        message=null;
     }
     res.render('auth/login',{
         pageTitle:'Login',
         path:'/auth/login',
-        errorMessage:message
+        errorMessage:message,
+        oldInput:{},
+        validationErrors: []
     });
 }
 exports.postLogin=(req,res,next)=>{
     const {email,password} = req.body;
+    const errors  = validationResult(req);
+    if(errors.array().length >0){
+        return res.render('auth/login',{
+            pageTitle:"Login",
+            errorMessage:errors.array()[0].msg,
+            path:'/login',
+            oldInput:{email,password},
+            validationErrors: errors.array()
+        })
+    }
     User.findOne({email})
         .then((user)=>{
             if(!user) {
-                req.flash("error","Invalid email or password")
-                return res.redirect('/login')
+                return res.status(422).render('auth/login',{
+                    pageTitle:"Login",
+                    errorMessage:"Invalid Email or password",
+                    path:'/login',
+                    oldInput:{email,password},
+                    validationErrors: []
+                })
             };
             bcrypt.compare(password,user.password)
                 .then((doMatch)=>{
                     if(!doMatch) {
-                        req.flash("error","Invalid email or password")
-                        return res.redirect('/login')
+                        return res.status(422).render('auth/login',{
+                            pageTitle:"Login",
+                            errorMessage:"Invalid Email or password",
+                            path:'/login',
+                            oldInput:{email,password},
+                            validationErrors: []
+                        })
                     };
                     req.session.isLoggedIn = true;
                     req.session.user = user;
@@ -66,34 +89,39 @@ exports.getSignUp = (req,res,next)=>{
     res.render('auth/signup',{
         pageTitle:"SignUp",
         path:'/signup',
-       errorMessage:message
+        errorMessage:message,
+        oldInput:{},
+        validationErrors:  []
     })
 }
 
 exports.postSignUp =(req,res,next)=>{
+    const errors  = validationResult(req);
     const {name ,email, password, confirm_password}  = req.body;
-    User.findOne({email})
-        .then((userOne)=>{
-            if(userOne) {
-                req.flash("error","Your Email Address is already exist")
-                return res.redirect('/signup')
-            };
-            bcrypt.hash(password,12)
-                .then((hashedPassword)=>{
-                    const user = new User({name,email,password:hashedPassword});
-                    return  user.save();
-                })
-                .then(()=>{
-                    transpoter.sendMail({
-                        from:"aungkaungkhantakk123321@gmail.com",
-                        to:email,
-                        subject:"Sign Up Succeeded",
-                        html:"<h1>You successfully sign up</h1>"
-                    })
-                    res.redirect('/login')
-                })
+    if(errors.array().length >0) {
+       return res.render('auth/signup',{
+            pageTitle:'Sign Up',
+            path:'/auth/signup',
+            errorMessage:errors.array()[0].msg,
+            oldInput:{name,email,password,confirm_password},
+            validationErrors:  errors.array()
+        });
+    }
+    bcrypt.hash(password,12)
+        .then((hashedPassword)=>{
+            const user = new User({name,email,password:hashedPassword});
+            return  user.save();
         })
-        .catch((err)=>console.log(err))
+        .then(()=>{
+            transpoter.sendMail({
+                from:"aungkaungkhantakk123321@gmail.com",
+                to:email,
+                subject:"Sign Up Succeeded",
+                html:"<h1>You successfully sign up</h1>"
+            })
+            res.redirect('/login')
+        })
+        
 }
 
 exports.getReset = (req,res,next)=>{

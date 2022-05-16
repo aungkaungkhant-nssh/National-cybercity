@@ -3,15 +3,26 @@
     <% if(errorMessage){%>
         <div class="alert alert-danger"><%= errorMessage %> </div>
     <% } %>  
-    <form action="/login" method="post" style="margin-top: 1rem;">
+    <form action="/login" method="post" style="margin-top: 1rem;" novalidate>
         <input type="hidden" value="<%= csrfToken %>" name="_csrf">
         <div class="form-group">
             <label for="">Email</label>
-            <input type="email" name="email" class="form-control">
+            <input 
+                type="email" 
+                name="email" 
+                class="form-control <%= validationErrors.find((v)=> v.param === "email") ? "validations"  : ''%>"
+                value="<%= oldInput.email %>"
+
+            >
         </div>
         <div class="form-group">
             <label for="">Password</label>
-            <input type="password" name="password" class="form-control">
+            <input 
+                type="password" 
+                name="password" 
+                class="form-control <%= validationErrors.find((v)=> v.param === "password") ? "validations"  : ''%>"
+                value="<%= oldInput.email %>"
+            >
         </div>
         <div class="d-flex align-center justify-between">
             <input type="submit" class="btn btn-outline-warning" value="Login">
