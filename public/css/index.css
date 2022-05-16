@@ -122,3 +122,6 @@ input,textarea{
     background-color: #ed143dad;
     color: #fff;
 }
+.validations{
+    border: 1px solid crimson;
+}

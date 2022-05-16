@@ -1,28 +1,47 @@
 <%- include('../includes/header.ejs') %>
     <main>
-        <h3 class="add-product-title">
+        <h3 class="add-product-title" style="margin-bottom: 1rem;">
             <%= isEditing ? 'Edit Product' : 'Add Product' %> 
         </h3>
-        <form action="/admin/<%= isEditing ? 'edit-product' : 'add-product' %>" method="POST">
+        <% if(errorMessage){ %>
+            <div  class="alert alert-danger"><%= errorMessage %> </div>
+        <% } %>  
+        <form action="/admin/<%= isEditing || oldInput.id ? 'edit-product' : 'add-product' %>" method="POST">
             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-            <% if(isEditing){ %>
-                <input type="hidden" name="id" value="<%= product._id %>">
-            <% } %>  
+            <input type="hidden" name="id" value="<%= isEditing ? product._id : oldInput.id || '' %>">
             <div class="form-group">
                 <label for="">Title</label>
-                <input type="text" name="title" class="form-control" value="<%= isEditing ? product.title: "" %>">
+                <input 
+                    type="text" 
+                    name="title" 
+                    class="form-control <%= validationErrors.find((v)=> v.param === "title") ? "validations" : ""%>" 
+                    value="<%= isEditing ? product.title: oldInput.title || '' %>">
             </div>
             <div class="form-group">
                 <label for="">Price</label>
-                <input type="number" name="price" class="form-control" value="<%= isEditing ? product.price: "" %>">
+                <input 
+                    type="number" 
+                    name="price" 
+                    class="form-control <%= validationErrors.find((v)=> v.param === "price") ? "validations" : ""%>" 
+                    value="<%= isEditing ? product.price: oldInput.price || ''%>"
+                >
             </div>
             <div class="form-group">
                 <label for="">Image</label>
-                <input type="text" name="image" class="form-control" value="<%= isEditing ? product.image: "" %>">
+                <input 
+                    type="text" 
+                    name="image"  
+                    class="form-control <%= validationErrors.find((v)=> v.param === "image") ? "validations" : ""%>"  
+                    value="<%= isEditing ? product.image: oldInput.image || ''%>"
+                >
             </div>
             <div class="form-group">
                 <label for="">Description</label>
-                <textarea name="description" class="form-control"><%= isEditing ? product.description: "" %></textarea>
+                <textarea 
+                    name="description" 
+                    class="form-control <%= validationErrors.find((v)=> v.param === "description") ? "validations" : ""%>"
+                ><%= isEditing ? product.description: oldInput.description || '' %>
+                </textarea>
             </div>
             <input type="submit" class="btn btn-primary btn-lg" value="<%= isEditing ? 'Edit Product' : 'Add Product' %> ">
         </form>
