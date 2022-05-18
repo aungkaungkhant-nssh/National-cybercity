@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const {validationResult} = require('express-validator');
+const mongoose = require("mongoose")
 exports.getProducts =(req,res,next)=>{
     Product.find({userId:req.user._id})
         .then((products)=>{
@@ -10,7 +11,11 @@ exports.getProducts =(req,res,next)=>{
                         }
                       );
         })
-        .catch((err)=>console.log(err));
+        .catch((err)=>{
+                const errors = new Error(err); /// error handling middleware
+                errors.httpStatusCode = 500;
+                return next(err);
+        });
 }
 
 exports.getAddProduct=(req,res,next)=>{
@@ -26,7 +31,7 @@ exports.getAddProduct=(req,res,next)=>{
 }
 exports.postAddProduct=(req,res,next)=>{
     const {title,price,image,description} = req.body;
-    const product = new Product({title,price,image,description,userId:req.user});
+    const product = new Product({_id:new mongoose.Types.ObjectId("627e1fbdcc28ea1465b2937c"),title,price,image,description,userId:req.user});
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.render("admin/add-product",{
@@ -43,13 +48,21 @@ exports.postAddProduct=(req,res,next)=>{
            .then((d)=>{
                 res.redirect('/admin/products');
            })
-           .catch((err)=>console.log(err));
+           .catch((err)=> {
+               const errors = new Error(err); /// error handling middleware
+               errors.httpStatusCode = 500;
+               return next(err);
+           });
 }
 exports.postDeleteProduct = (req,res,next)=>{
     const {id} = req.body;
     Product.findOneAndDelete({$and:[{_id:id},{userId:req.user._id}]})
         .then(()=>res.redirect('/admin/products'))
-        .catch((err)=>console.log(err))
+        .catch((err)=>{
+            const errors = new Error(err); /// error handling middleware
+            errors.httpStatusCode = 500;
+            return next(err);
+        })
 }
 
 exports.getEditProduct=(req,res,next)=>{
@@ -73,7 +86,11 @@ exports.getEditProduct=(req,res,next)=>{
                  
                 });
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                const errors = new Error(err); /// error handling middleware
+                errors.httpStatusCode = 500;
+                return next(err);
+            })
   
 }
 exports.postEditProduct = (req,res,next)=>{
@@ -93,5 +110,9 @@ exports.postEditProduct = (req,res,next)=>{
         .then((updateProduct)=>{
             res.redirect('/admin/products')
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            const errors = new Error(err); /// error handling middleware
+            errors.httpStatusCode = 500;
+            return next(err);
+        })
 }

@@ -10,7 +10,11 @@ exports.getIndex=(req,res,next)=>{
                   
                 });
         })
-        .catch((err)=>console.log(err));  
+        .catch((err)=>{
+            const errors = new Error(err); /// error handling middleware
+            errors.httpStatusCode = 500;
+            return next(err);
+        });  
 }
 
 exports.getProducts=(req,res,next)=>{
@@ -22,7 +26,11 @@ exports.getProducts=(req,res,next)=>{
                     path:"/products",
                 });
         })
-        .catch((err)=>console.log(err));  
+        .catch((err)=>{
+            const errors = new Error(err); /// error handling middleware
+            errors.httpStatusCode = 500;
+            return next(err);
+        });  
 }
 exports.postAddCart=(req,res,next)=>{
         const {id}= req.body;
@@ -31,7 +39,11 @@ exports.postAddCart=(req,res,next)=>{
                    return req.user.addToCart(product);
                 })
                 .then((data)=> res.redirect('/cart'))
-                .catch((err)=>console.log(err))
+                .catch((err)=>{
+                        const errors = new Error(err); /// error handling middleware
+                        errors.httpStatusCode = 500;
+                        return next(err);
+                })
 }
 
 exports.getProduct=(req,res,next)=>{
@@ -44,7 +56,11 @@ exports.getProduct=(req,res,next)=>{
                     path:'',
                 })
             })
-            .catch((err)=>console.log(err))
+            .catch((err)=>{
+                const errors = new Error(err); /// error handling middleware
+                errors.httpStatusCode = 500;
+                return next(err);
+            })
 }
 exports.getAddCart=(req,res,next)=>{
     req.user
@@ -56,13 +72,21 @@ exports.getAddCart=(req,res,next)=>{
                 path:"/cart",
             })
         })
-        .catch((err)=>console.log(err));
+        .catch((err)=>{
+            const errors = new Error(err); /// error handling middleware
+            errors.httpStatusCode = 500;
+            return next(err);
+        });
 }
 exports.postDeleteCart =(req,res,next)=>{
     const {id} = req.body;
     req.user.removeCart(id)
         .then((d)=>res.redirect('/cart'))
-        .catch((err)=>console.log(err))
+        .catch((err)=>{
+            const errors = new Error(err); /// error handling middleware
+            errors.httpStatusCode = 500;
+            return next(err);
+        })
 }
 
 exports.getAddOrder = (req,res,next)=>{
@@ -96,5 +120,9 @@ exports.postAddOrder= (req,res,next)=>{
             req.user.clearCart();
             res.redirect('/order')
         })
-        .catch((err)=>console.log(err))
+        .catch((err)=>{
+            const errors = new Error(err); /// error handling middleware
+            errors.httpStatusCode = 500;
+            return next(err);
+        })
 }
