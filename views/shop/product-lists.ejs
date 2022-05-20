@@ -1,24 +1,29 @@
 <%- include('../includes/header.ejs') %> 
     <main>
-        <div class="product-lists">
-            <% if(products.length>0){ %>
-                <% for(product of products){ %>
-                    <div class="product-list">
-                        <h3 class="product-title"><%= product.title %> </h3>
-                        <img src="<%= product.image %> " alt="">
-                        <div class="product-text">
-                            <p class="product-description"><%= product.description %> </p>
-                            <span class="product-price"><%= product.price %>$</span>
+        <div>
+            <div class="product-lists">
+                <% if(products.length>0){ %>
+                    <% for(product of products){ %>
+                        <div class="product-list">
+                            <h3 class="product-title"><%= product.title %> </h3>
+                            <img src="<%= product.image %> " alt="">
+                            <div class="product-text">
+                                <p class="product-description"><%= product.description %> </p>
+                                <span class="product-price"><%= product.price %>$</span>
+                            </div>
+                            <div class="btn-lists">
+                                <a class="btn btn-outline-warning" href="/product/<%= product._id %> ">Details</a>
+                                <% if(isLoggedIn){ %>
+                                    <%- include('../includes/add-to-cart.ejs') %> 
+                                <% } %> 
+                            </div>
+                             
                         </div>
-                        <div class="btn-lists">
-                            <a class="btn btn-outline-warning" href="/product/<%= product._id %> ">Details</a>
-                            <% if(isLoggedIn){ %>
-                                <%- include('../includes/add-to-cart.ejs') %> 
-                            <% } %> 
-                        </div>
-                         
-                    </div>
-                <% } %> 
+                        
+                    <% } %> 
+            </div>
+            
+            <%- include('../includes/pagination.ejs') %>
             <% }else{ %>
                 <h2>No Products Not Found</h2>
             <% } %>  

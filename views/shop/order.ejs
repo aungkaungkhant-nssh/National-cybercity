@@ -3,12 +3,18 @@
         <% if(orders.length>0){ %>
             <% orders.forEach((o)=>{ %>
                 <div class="card">
-                    <h3 style="margin-bottom: .5rem;">Order# <%= o._id %> </h3>
+                    <h3 style="margin-bottom: .5rem;">
+                        Order# <%= o._id %>
+                        <a href="/order/<%= o._id %> ">Invoice</a> 
+                    </h3>
                     <% o.products.forEach((i)=>{ %> 
                         <ul>
                             <li style="margin-right: .5rem;font-weight: 300;">
                                 <%= i.product.title  %> 
-                                <span class="badge badge-warning"><%= i.quantity %> </span>
+                                <span class="badge badge-warning " style="margin-right:1.4rem ;">
+                                    <%= i.quantity %>
+                                </span>
+                                
                              </li>
                         </ul>
                     <% }) %> 

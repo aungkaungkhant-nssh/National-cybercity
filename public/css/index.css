@@ -126,3 +126,9 @@ input,textarea{
 .validations{
     border: 1px solid crimson;
 }
+.pagination{
+
+}
+.pagination a {
+    margin-right: 1rem;
+}
