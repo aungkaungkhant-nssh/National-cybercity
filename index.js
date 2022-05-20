@@ -4,12 +4,14 @@ const bodyParser= require("body-parser");
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require('express-session');
-let MongoDBStore = require('connect-mongodb-session')(session)
+let MongoDBStore = require('connect-mongodb-session')(session);
 const MONGODB_URI = "mongodb+srv://root:root@cluster0.t9jp2.mongodb.net/shop?retryWrites=true&w=majority";
 const csrf = require('csurf');
 const csrfProtection = csrf();
 const flash = require('connect-flash');
 const errors = require('./controller/errors');
+const multer  = require("multer");
+const uuidv4 = require('uuid');
 
 const store =  new MongoDBStore({ // store mongodb sessions database
     uri:MONGODB_URI,
@@ -19,9 +21,27 @@ store.on('error',function(error){
     console.log(error)
 })
 
+const fileStorage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,"images");
+    },
+    filename:(req,file,cb)=>{
+        cb(null,uuidv4.v4()+file.originalname);
+    }
+})
+
+const fileFilter = (req,file,cb)=>{
+    if(file.mimetype==="image/jpg" || file.mimetype==="image/jpeg" || file.mimetype==="image/png"){
+        cb(null,true);
+    }else{
+        cb(null,false)
+    }
+}
 
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(multer({storage:fileStorage,fileFilter}).single("image"));
 app.use(express.static(path.join(__dirname,"public")));
+app.use("/images",express.static(path.join(__dirname,"images")));
 app.set('view engine','ejs');
 app.set('views','views');
 
@@ -62,8 +82,8 @@ const shopRoutes = require('./routes/shopRoutes');
 const adminRoutes = require('./routes/adminRoute');
 const authRoutes = require('./routes/authRoute');
 const User = require('./models/user');
+const { CLIENT_RENEG_LIMIT } = require("tls");
 
-;
 app.use(shopRoutes);
 app.use('/admin',adminRoutes);
 app.use(authRoutes);
