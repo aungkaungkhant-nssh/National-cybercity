@@ -20,7 +20,7 @@ router.post('/add-product',[
         .trim()
 ]
 ,admin.postAddProduct);
-router.post('/delete-product',admin.postDeleteProduct);
+router.delete('/product/:id',admin.postDeleteProduct);
 router.get('/edit-product/:id',admin.getEditProduct);
 router.post('/edit-product',[
     check("title")

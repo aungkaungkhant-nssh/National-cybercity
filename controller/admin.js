@@ -71,16 +71,14 @@ exports.postAddProduct=(req,res,next)=>{
            });
 }
 exports.postDeleteProduct = (req,res,next)=>{
-    const {id} = req.body;
+    const {id} = req.params;
     Product.findOneAndDelete({$and:[{_id:id},{userId:req.user._id}]})
         .then((product)=>{
             fileHelper.deleteFile(product.image);
-            res.redirect('/admin/products')
+            res.status(200).json({message:"Success Delete Product"});
         })
         .catch((err)=>{
-            const errors = new Error(err); /// error handling middleware
-            errors.httpStatusCode = 500;
-            return next(err);
+            res.status(500).json({message:"Failed Delete Product"});
         })
 }
 
